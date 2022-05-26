@@ -5,18 +5,18 @@ pip install xitrooapi
 
 ## Examples
 ```
-from xitroo.email import xitroo
+from xitroo.api import xitroo
 
-email = xitroo("test@xitroo.de")
-email.get_bodyText
+xitroo_email = xitroo("test@xitroo.de")
+xitroo_email.get_bodyText()
 ```
 or
 ```
-email.get_bodyHtml
+email.get_bodyHtml()
 ```
 or
 ```
-email.get_bodyHtmlStrict
+email.get_bodyHtmlStrict()
 ```
 You can also pass in an integer how many times it should check the inbox
 ```
