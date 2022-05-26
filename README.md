@@ -1,6 +1,6 @@
 # USAGE
 ```
-pip install xitroo_api
+pip install xitrooapi
 ```
 
 ## Examples
