@@ -5,7 +5,7 @@ pip install xitrooapi
 
 ## Examples
 ```
-from xitrooapi import xitroo
+from xitroo.email import xitroo
 
 email = xitroo("test@xitroo.de")
 email.get_bodyText
