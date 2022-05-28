@@ -14,6 +14,9 @@ It will get the latest inbox email and returns their body or subject as string t
 .get_bodyHtml()
 .get_subject()
 >>> returns string from last mail
+
+.get_latest_inbox_raw()
+>>> returns json from latest mail
 ```
 ## Parameters
 You can also pass in an integer how many times it should check the inbox
