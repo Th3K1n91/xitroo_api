@@ -19,10 +19,10 @@ class xitroo():
                 if i == self.refresh_c-1: exit()
                 time.sleep(self.refresh_w)
 
-    def get_bodyHtmlStrict(self): return base64.b64decode(self.get_latest_inbox_raw()["bodyHtmlStrict"])
+    def get_bodyHtmlStrict(self): return base64.b64decode(self.get_latest_inbox_raw()["bodyHtmlStrict"]).decode("UTF-8")
 
-    def get_bodyHtml(self): return base64.b64decode(self.get_latest_inbox_raw()["bodyHtml"])
+    def get_bodyHtml(self): return base64.b64decode(self.get_latest_inbox_raw()["bodyHtml"]).decode("UTF-8")
 
-    def get_bodyText(self): return base64.b64decode(self.get_latest_inbox_raw()["bodyText"])
+    def get_bodyText(self): return base64.b64decode(self.get_latest_inbox_raw()["bodyText"]).decode("UTF-8")
 
     def get_subject(self): return base64.b64decode(self.get_latest_inbox_raw()["subject"]).decode("UTF-8")

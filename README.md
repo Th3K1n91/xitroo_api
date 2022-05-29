@@ -2,7 +2,7 @@
 ```
 pip install unofficial-xitroo-api
 ```
-## How does that work?
+## What does it?
 It will get the latest inbox email and returns their body or subject as string to get for example account verification codes
 
 # Documentation
