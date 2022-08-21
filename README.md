@@ -28,9 +28,11 @@ refresh_wait=int
 
 >"refresh_wait" is how many seconds it should wait between refreshes (default is 5)
 
+>"http_timeout" If the request doesn't load in 15 seconds it will send a new one (default is 15)
+
 Example:
 ```
-xitroo("test@xitroo.de", refresh_counter=5, refresh_wait=5)
+xitroo("test@xitroo.de", refresh_counter=5, refresh_wait=5, http_timeout=15)
 ```
 ## Examples
 ```
