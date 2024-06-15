@@ -12,7 +12,7 @@ This is an unofficial API for interacting with the Xitroo email service. The API
 
 ## Installation
 
-To install this package, clone the repository and install the required dependencies:
+To install this package, type the following command into your terminal:
 
 ```bash
 pip install unofficial-xitroo-api
