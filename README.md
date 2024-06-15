@@ -1,48 +1,67 @@
-# USAGE
-```
+# Unofficial Xitroo API
+
+This is an unofficial API for interacting with the Xitroo email service. The API provides a set of Python classes and methods to manage email addresses, retrieve and send emails, handle inboxes, solve captchas, and more.
+
+## Table of Contents
+- [Installation](#Installation)
+- [Quick Start](#Quick-Start)
+- [Classes Overview](#classes-overview)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Installation
+
+To install this package, clone the repository and install the required dependencies:
+
+```bash
 pip install unofficial-xitroo-api
 ```
-## What does it?
-It will get the latest inbox email and returns their body or subject as string to get for example account verification codes
 
-# Documentation
+## Quick Start
 
-## Arguments
+Here's a brief example to get you started:
+```python
+from xitroo import Xitroo
+
+# Generate mail
+email = Xitroo.generate()
+print(email)
+
+# Initialize the Xitroo object
+xitroo = Xitroo("your-email@xitroo.com")
+
+# Get the inbox
+inbox = xitroo.Inbox()
+
+# Get the latest email
+latest_mail = xitroo.getLatestMail()
+print(latest_mail.getBodyText())
+
+# Print code form latest email
+print(Xitroo.getCode(latest_mail))
 ```
-.get_bodyText()
-.get_bodyHtmlStrict()
-.get_bodyHtml()
-.get_subject()
->>> returns string from last mail
+## Classes Overview
+### Xitroo
+The main class to interact with the Xitroo API. It includes methods for managing email addresses, headers, sessions, and performing various email operations.
 
-.get_latest_inbox_raw()
->>> returns json from latest mail
-```
-## Parameters
-You can also pass in an integer how many times it should check the inbox
+### Mail
+Represents an email. It provides methods to retrieve email content, attachments, and metadata.
 
-refresh_counter=int
+### Inbox
+Represents an inbox. It provides methods to retrieve emails and inbox information.
 
-refresh_wait=int
->"refresh_counter" is how many times it should ckeck the inbox (default is 5)
+### SearchMail
+Provides methods to search the inbox by different criteria such as date, sender, title, and text in the body.
 
->"refresh_wait" is how many seconds it should wait between refreshes (default is 5)
+### Captcha
+Handles captcha-related operations including retrieving and verifying captchas.
 
->"http_timeout" If the request doesn't load in 15 seconds it will send a new one (default is 15)
+## Documentation
+For detailed documentation, please refer to the [HTML documentation](http://htmlpreview.github.io/?https://github.com/Th3K1n91/xitroo_api/tree/main/docs/index.html) in the docs folder.
 
-Example:
-```
-xitroo("test@xitroo.de", refresh_counter=5, refresh_wait=5, http_timeout=15)
-```
-## Examples
-```
-from xitroo.api import xitroo
+## Contributing
+We welcome contributions! Please fork the repository and submit pull requests.
 
-xitroo_email = xitroo("test@xitroo.de")
-print(xitroo_email.get_bodyText())
-```
-```
-from xitroo.api import xitroo as x
-
-print(x("test@xitroo.de", refresh_counter=5, refresh_wait=5).get_subject())
-```
+## License
+This project is licensed under the [MIT License](LICENSE). See the LICENSE file for details.
