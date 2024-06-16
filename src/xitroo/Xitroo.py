@@ -3,6 +3,7 @@ import re
 import string
 import time
 import requests
+from .endpoints import *
 from .exceptions import *
 from .Mail import Mail as Mailclass
 from .Inbox import Inbox as Inboxclass
@@ -10,16 +11,7 @@ from .Captcha import Captcha as Captchaclass
 from .Search import SearchMail as Searchclass
 
 class Xitroo:
-    _APIURL = 'https://api.xitroo.com/v1'
-    _MAILS = _APIURL + '/mails?'
-    _MAIL = _APIURL + '/mail?'
-    _SEND = _APIURL + '/mail/send'
-    _ATTACHMENT = _APIURL + '/mail/attachment?'
-    _GETCAPTCHA = _SEND + '/requestCaptcha?'
-    _SENDCAPTCHA = _SEND + '/verifyCaptcha?'
-    _SENDMAIL = _SEND + '/sendMail?'
-
-    def __init__(self, mailAddress: str, header = {}, session: requests.Session = None):
+    def __init__(self, mailAddress: str, header: dict = {}, session: requests.Session = None):
         """
         Xitroo API constructor.
         :param mailAddress: mail address to check for or send mails.
@@ -31,7 +23,7 @@ class Xitroo:
         """
         self._l: list[str] = ["de", "fr", "com"]
         self._locale: str = mailAddress.strip().split(".")[-1]
-        self._header = header
+        self._header: dict = header
         self._mailAddress: str = mailAddress.strip()
         self._session: requests.Session = requests.Session() if session is None else session
 
@@ -126,7 +118,7 @@ class Xitroo:
         :rtype: :class:`Mailclass`
         :return: :class:`Mailclass` Object.
         """
-        return Mailclass(self, mailId)
+        return Mailclass(mailId, self._session, self._locale)
 
     def Inbox(self, inbox: dict = None) -> Inboxclass:
         """
@@ -136,7 +128,7 @@ class Xitroo:
         :rtype: :class:`Inboxclass`
         :return: :class:`Inboxclass` Object
         """
-        return Inboxclass(self, inbox)
+        return Inboxclass(self._mailAddress, self._session, inbox, self._locale)
 
     def Captcha(self) -> Captchaclass:
         """
@@ -144,7 +136,7 @@ class Xitroo:
         :rtype: :class:`Captchaclass`
         :return: :class:`Captchaclass` Object
         """
-        return Captchaclass(self)
+        return Captchaclass(self._session, self._locale)
 
     # Rewrite Search
     def searchInbox(self) -> Searchclass:
@@ -153,7 +145,7 @@ class Xitroo:
         :rtype: :class:`Searchclass`
         :return: :class:`Searchclass` Object
         """
-        return Searchclass(self)
+        return Searchclass(self._mailAddress, self._session)
 
     def getRawInbox(self, mailsPerPage=25) -> dict:
         """
@@ -163,7 +155,7 @@ class Xitroo:
         :rtype: :class:`dict`
         :return: :class:`dict` of Inbox
         """
-        return Inboxclass(self).getRawInbox(mailsPerPage)
+        return self.Inbox().getRawInbox(mailsPerPage)
 
     def getRawMail(self, mailId: str) -> dict:
         """
@@ -173,7 +165,7 @@ class Xitroo:
         :rtype: :class:`dict`
         :return: :class:`dict` of Mail
         """
-        return Mailclass(self, mailId).getRawMail()
+        return self.Mail(mailId).getRawMail()
 
 
     def _verifyCaptchaAsUserInput(self) -> str:
@@ -184,7 +176,7 @@ class Xitroo:
             reload: bool = True
             params: dict[str, str] = {"locale": self._locale}
             while(reload):
-                r: dict = self._session.get(self._GETCAPTCHA, headers=self._header, params=params).json()
+                r: dict = self._session.get(GETCAPTCHA, headers=self._header, params=params).json()
                 id: str = r["authID"]
                 captcha: str = r["captchaCode"]
                 print(captcha)
@@ -197,7 +189,7 @@ class Xitroo:
                 "authID": id,
                 "captchaSolution": solution
             })
-            r: dict = self._session.get(self._SENDCAPTCHA, headers=self._header, params=params).json()
+            r: dict = self._session.get(SENDCAPTCHA, headers=self._header, params=params).json()
             if not r["authSuccess"]:
                 print("Captcha failed")
         return id
@@ -231,7 +223,7 @@ class Xitroo:
             "replyMailID": "",
             "subject": subject
         }
-        r: requests.Response = self._session.post(self._SENDMAIL, headers=self._header, params=params, data=data)
+        r: requests.Response = self._session.post(SENDMAIL, headers=self._header, params=params, data=data)
         if r.status_code != 200:
             return False
         return True
@@ -258,7 +250,7 @@ class Xitroo:
         """
         Static Method to get code from given ``body`` and ``codelength`` to identify the code.
         :param body: bodytext of email.
-        :param codelength: optional length of code to parse.
+        :param codelength: optional length of code to parse. Default is 6.
         :type body: :class:`str`
         :type codelength: :class:`int`
         :rtype: :class:`str`

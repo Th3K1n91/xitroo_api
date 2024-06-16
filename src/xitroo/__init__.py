@@ -1,4 +1,8 @@
 from .Xitroo import Xitroo
+from .Mail import Mail
+from .Inbox import Inbox
+from .Search import SearchMail
+from .Captcha import Captcha
 from .exceptions import *
 
 __title__ = "Unofficial Xitroo API"
