@@ -1,6 +1,6 @@
 import time
 import requests
-from .exceptions import EmailNotFound
+from .exceptions import EmailNotFound, GETRequestException
 from .endpoints import *
 from .Mail import Mail as Mailclass
 class Inbox:
@@ -43,11 +43,14 @@ class Inbox:
             "minTimestamp": "0",
             "maxTimestamp": time.time()
         }
-        reqeust: dict = self._session.get(MAILS, params=params).json()
+        reqeust: requests.Response = self._session.get(MAILS, params=params)
+        if reqeust.status_code != 200:
+            raise GETRequestException("raw Inbox", reqeust.text, reqeust.status_code)
+        content: dict = reqeust.json()
         # Translate for later usage #1
-        if "type" in reqeust:
+        if "type" in content:
             return {'totalMails': 0, 'mails': []}
-        return reqeust
+        return content
 
     def getTotalMails(self) -> int:
         """
@@ -74,10 +77,12 @@ class Inbox:
         :return: :class:`dict`
         """
         total = self.getTotalMails()
-        if abs(index) <= total and total > 0:
+        if total*-1 <= index < total and total > 0:
             return self._inbox['mails'][index]
         else:
-            raise EmailNotFound("Either Index out of range or Inbox Empty")
+            if total == 0:
+                raise EmailNotFound(f"Inbox from {self._mailAddress} does not contain any mail.")
+            raise EmailNotFound("Index out of range for Inbox from {self._mailAddress}")
 
     def getMail(self, index: int) -> Mailclass:
         """
@@ -88,7 +93,6 @@ class Inbox:
         :return: :class:`Mailclass`
         """
         return Mailclass(self.getRawMail(index)["_id"], self._session)
-        #return self._xitroo.Mail(self.getRawMail(index)["_id"])
 
     def getMailFirst(self) -> Mailclass:
         """
@@ -97,7 +101,6 @@ class Inbox:
         :return: :class:`Mailclass`
         """
         return Mailclass(self.getRawMail(0)["_id"], self._session)
-        #return self._xitroo.Mail(self.getRawMail(0)["_id"])
 
     def getMailLast(self) -> Mailclass:
         """
@@ -106,8 +109,3 @@ class Inbox:
         :return: :class:`Mailclass`
         """
         return Mailclass(self.getRawMail(-1)["_id"], self._session)
-        #return self._xitroo.Mail(self.getRawMail(-1)["_id"])
-
-
-    # def searchRegex(self):
-    #     return self._xitroo.searchInboxRegex()
