@@ -2,7 +2,10 @@ import random
 import re
 import string
 import time
+from collections.abc import MutableMapping
+
 import requests
+from .endpoints import *
 from .exceptions import *
 from .Mail import Mail as Mailclass
 from .Inbox import Inbox as Inboxclass
@@ -10,16 +13,7 @@ from .Captcha import Captcha as Captchaclass
 from .Search import SearchMail as Searchclass
 
 class Xitroo:
-    _APIURL = 'https://api.xitroo.com/v1'
-    _MAILS = _APIURL + '/mails?'
-    _MAIL = _APIURL + '/mail?'
-    _SEND = _APIURL + '/mail/send'
-    _ATTACHMENT = _APIURL + '/mail/attachment?'
-    _GETCAPTCHA = _SEND + '/requestCaptcha?'
-    _SENDCAPTCHA = _SEND + '/verifyCaptcha?'
-    _SENDMAIL = _SEND + '/sendMail?'
-
-    def __init__(self, mailAddress: str, header = {}, session: requests.Session = None):
+    def __init__(self, mailAddress: str, header: MutableMapping[str, str | bytes] = {}, session: requests.Session = None):
         """
         Xitroo API constructor.
         :param mailAddress: mail address to check for or send mails.
@@ -31,7 +25,7 @@ class Xitroo:
         """
         self._l: list[str] = ["de", "fr", "com"]
         self._locale: str = mailAddress.strip().split(".")[-1]
-        self._header = header
+        self._header: MutableMapping[str, str | bytes] = header
         self._mailAddress: str = mailAddress.strip()
         self._session: requests.Session = requests.Session() if session is None else session
 
@@ -58,19 +52,19 @@ class Xitroo:
         self._locale: str = mailAddress.split(".")[-1]
         self._mailAddress: str = mailAddress
 
-    def getHeader(self):
+    def getHeader(self) -> MutableMapping[str, str | bytes]:
         """
         returns the header of the current :class:`requests.Session` instance.
         :return: :class:`collections.abc.MutableMapping[str, str | bytes]`
         """
         return self._header
 
-    def setHeader(self, header) -> None:
+    def setHeader(self, header: MutableMapping[str, str | bytes]) -> None:
         """
         :param header: sets the header of the current :class:`requests.Session` instance.
         :type header: :class:`collections.abc.MutableMapping[str, str | bytes]`
         """
-        self._header = header
+        self._header: MutableMapping[str, str | bytes] = header
         self._session.headers.update(self._header)
 
     def getSession(self) -> requests.Session:
@@ -86,18 +80,18 @@ class Xitroo:
         :type session: :class:`requests.Session``
         """
         self._session: requests.Session = session
-        self._header = self._session.headers
+        self._header: MutableMapping[str, str | bytes] = self._session.headers
 
 
 
-    def equals(self, xitroo) -> bool:
+    def equals(self, XitrooObject: __init__) -> bool:
         """
-        :param xitroo: :class:`Xitroo` Object to compare to.
-        :type xitroo: :class:`Xitroo`
+        :param XitrooObject: :class:`Xitroo` Object to compare to.
+        :type XitrooObject: :class:`Xitroo`
         :rtype: :class:`bool`
         :return: :class:`bool` - True if equals, false otherwise.
         """
-        return self.getMailAddress == xitroo.getMailAddress and self.getHeader == xitroo.getHeader
+        return self.getMailAddress == XitrooObject.getMailAddress and self.getHeader == XitrooObject.getHeader
 
     def copy(self) -> __init__:
         """
@@ -126,7 +120,7 @@ class Xitroo:
         :rtype: :class:`Mailclass`
         :return: :class:`Mailclass` Object.
         """
-        return Mailclass(self, mailId)
+        return Mailclass(mailId, self._session, self._locale)
 
     def Inbox(self, inbox: dict = None) -> Inboxclass:
         """
@@ -136,7 +130,7 @@ class Xitroo:
         :rtype: :class:`Inboxclass`
         :return: :class:`Inboxclass` Object
         """
-        return Inboxclass(self, inbox)
+        return Inboxclass(self._mailAddress, self._session, inbox, self._locale)
 
     def Captcha(self) -> Captchaclass:
         """
@@ -144,7 +138,7 @@ class Xitroo:
         :rtype: :class:`Captchaclass`
         :return: :class:`Captchaclass` Object
         """
-        return Captchaclass(self)
+        return Captchaclass(self._session, self._locale)
 
     # Rewrite Search
     def searchInbox(self) -> Searchclass:
@@ -153,7 +147,7 @@ class Xitroo:
         :rtype: :class:`Searchclass`
         :return: :class:`Searchclass` Object
         """
-        return Searchclass(self)
+        return Searchclass(self._mailAddress, self._session)
 
     def getRawInbox(self, mailsPerPage=25) -> dict:
         """
@@ -163,7 +157,7 @@ class Xitroo:
         :rtype: :class:`dict`
         :return: :class:`dict` of Inbox
         """
-        return Inboxclass(self).getRawInbox(mailsPerPage)
+        return self.Inbox().getRawInbox(mailsPerPage)
 
     def getRawMail(self, mailId: str) -> dict:
         """
@@ -173,19 +167,19 @@ class Xitroo:
         :rtype: :class:`dict`
         :return: :class:`dict` of Mail
         """
-        return Mailclass(self, mailId).getRawMail()
+        return self.Mail(mailId).getRawMail()
 
 
     def _verifyCaptchaAsUserInput(self) -> str:
-        id: str = ""
+        captchaid: str = ""
         solution: str = ""
         r = {"authSuccess": False}
-        while(not r["authSuccess"]):
+        while not r["authSuccess"]:
             reload: bool = True
             params: dict[str, str] = {"locale": self._locale}
-            while(reload):
-                r: dict = self._session.get(self._GETCAPTCHA, headers=self._header, params=params).json()
-                id: str = r["authID"]
+            while reload:
+                r: dict = self._session.get(GETCAPTCHA, headers=self._header, params=params).json()
+                captchaid: str = r["authID"]
                 captcha: str = r["captchaCode"]
                 print(captcha)
                 solution: str = input("Solve Captcha (r for reload, e for exit): ")
@@ -194,13 +188,13 @@ class Xitroo:
                 if solution == "e":
                     return ""
             params.update({
-                "authID": id,
+                "authID": captchaid,
                 "captchaSolution": solution
             })
-            r: dict = self._session.get(self._SENDCAPTCHA, headers=self._header, params=params).json()
+            r: dict = self._session.get(SENDCAPTCHA, headers=self._header, params=params).json()
             if not r["authSuccess"]:
                 print("Captcha failed")
-        return id
+        return captchaid
 
     def sendMail(self, recipient: str, subject: str, Text: str, mode: int = 1, id: str = "") -> bool:
         """
@@ -231,7 +225,7 @@ class Xitroo:
             "replyMailID": "",
             "subject": subject
         }
-        r: requests.Response = self._session.post(self._SENDMAIL, headers=self._header, params=params, data=data)
+        r: requests.Response = self._session.post(SENDMAIL, headers=self._header, params=params, data=data)
         if r.status_code != 200:
             return False
         return True
@@ -258,7 +252,7 @@ class Xitroo:
         """
         Static Method to get code from given ``body`` and ``codelength`` to identify the code.
         :param body: bodytext of email.
-        :param codelength: optional length of code to parse.
+        :param codelength: optional length of code to parse. Default is 6.
         :type body: :class:`str`
         :type codelength: :class:`int`
         :rtype: :class:`str`
@@ -290,7 +284,8 @@ class Xitroo:
         """
         for i in range(checkMail):
             latest = self.getLatestMail()
-            if not(latest.getRawMail()["arrivalTimestamp"] + maxTime < time.time()):
-                return latest
+            if latest:
+                if not(latest.getRawMail()["arrivalTimestamp"] + maxTime < time.time()):
+                    return latest
             print("Waiting for latest mail...")
             time.sleep(sleepTime)

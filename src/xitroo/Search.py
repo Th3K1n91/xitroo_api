@@ -1,15 +1,21 @@
+import requests
 from datetime import datetime
 from .Inbox import Inbox as Inboxclass
+from .Mail import Mail as Mailclass
 class SearchMail:
     # {'totalMails': 0, 'mails': []}
-    def __init__(self, xitroo):
+    def __init__(self, mailAddress: str, session: requests.Session = requests.Session()):
         """
         SearchMail constructor.
-        :param xitroo: Xitroo object.
-        :type xitroo: :class:`xitroo.Xitroo.Xitroo`
+        :param mailAddress: Email address to search Inbox from.
+        :param session: :class:`requests.Session` to use.
+        :type session: :class:`requests.Session`
+        :type mailAddress: :class:`str`
         """
-        self._xitroo = xitroo
-        self._mails: dict = self._xitroo.getRawInbox()
+        self._mailAddress: str = mailAddress.strip()
+        self._session: requests.Session = session
+        self._inbox: Inboxclass = Inboxclass(self._mailAddress, self._session)
+        self._mails: dict = self._inbox.getRawInbox()
         self._result: dict = {'totalMails': 0, 'mails': []}
 
     def byDate(self, mailDate: str) -> Inboxclass:
@@ -21,14 +27,14 @@ class SearchMail:
         """
         # datetime.strptime(mailDate, "%Y-%m-%d").date()
         for i in self._mails['mails']:
-            id: str = i['_id']
+            mailid: str = i['_id']
             if datetime.fromtimestamp(i['arrivalTimestamp']).strftime('%Y-%m-%d') == mailDate:
                 for j in self._result['mails']:
-                    if id in j['_id']:
-                        return self._xitroo.Inbox(inbox=self._result)
+                    if mailid in j['_id']:
+                        return Inboxclass(session=self._session, inbox=self._result)
                 self._result['totalMails'] += 1
                 self._result['mails'].append(i)
-        return self._xitroo.Inbox(inbox=self._result)
+        return Inboxclass(session=self._session, inbox=self._result)
 
     def bySender(self, sender: str) -> Inboxclass:
         """
@@ -38,14 +44,15 @@ class SearchMail:
         :return: :class:`Inboxclass`
         """
         for i in self._mails['mails']:
-            id: str = i['_id']
-            if sender in self._xitroo.Mail(id).getFromMail():
+            mailid: str = i['_id']
+            if sender in Mailclass(mailid, self._session).getFromMail():
+            # if sender in self._xitroo.Mail(id).getFromMail():
                 for j in self._result['mails']:
-                    if id in j['_id']:
-                        return self._xitroo.Inbox(inbox=self._result)
+                    if mailid in j['_id']:
+                        return Inboxclass(session=self._session, inbox=self._result)
                 self._result['totalMails'] += 1
                 self._result['mails'].append(i)
-        return self._xitroo.Inbox(inbox=self._result)
+        return Inboxclass(session=self._session, inbox=self._result)
 
     def byTitle(self, title: str) -> Inboxclass:
         """
@@ -55,14 +62,14 @@ class SearchMail:
         :return: :class:`Inboxclass`
         """
         for i in self._mails['mails']:
-            id: str = i['_id']
-            if title in self._xitroo.Mail(id).getSubject():
+            mailid: str = i['_id']
+            if title in Mailclass(mailid, self._session).getSubject():
                 for j in self._result['mails']:
-                    if id in j['_id']:
-                        return self._xitroo.Inbox(inbox=self._result)
+                    if mailid in j['_id']:
+                        return Inboxclass(session=self._session, inbox=self._result)
                 self._result['totalMails'] += 1
                 self._result['mails'].append(i)
-        return self._xitroo.Inbox(inbox=self._result)
+        return Inboxclass(session=self._session, inbox=self._result)
 
     def byTextInBody(self, text: str) -> Inboxclass:
         """
@@ -72,14 +79,14 @@ class SearchMail:
         :return: :class:`Inboxclass`
         """
         for i in self._mails['mails']:
-            id: str = i['_id']
-            if text in self._xitroo.Mail(id).getBodyText():
+            mailid: str = i['_id']
+            if text in Mailclass(mailid, self._session).getBodyText():
                 for j in self._result['mails']:
-                    if id in j['_id']:
-                        return self._xitroo.Inbox(inbox=self._result)
+                    if mailid in j['_id']:
+                        return Inboxclass(session=self._session, inbox=self._result)
                 self._result['totalMails'] += 1
                 self._result['mails'].append(i)
-        return self._xitroo.Inbox(inbox=self._result)
+        return Inboxclass(session=self._session, inbox=self._result)
 
     # def searchInboxRegex(self):
     #     # {'totalMails': 0, 'mails': []}

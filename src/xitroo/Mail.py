@@ -1,18 +1,25 @@
 import base64
 import requests
 import os
+import re
+from .endpoints import *
 
 class Mail:
-    def __init__(self, xitroo, mailId: str):
+    def __init__(self, mailId: str,
+                 session: requests.Session = requests.Session(),
+                 locale: str = 'com'):
         """
         Mail constructor
-        :param xitroo: Xitroo object.
         :param mailId: Mail id to identify mail to read.
-        :type xitroo: :class:`xitroo.Xitroo.Xitroo`
+        :param session: optional :class:`requests.Session` object.
+        :param locale: optional locale to identify mail to.
         :type mailId: :class:`str`
+        :type session: :class:`requests.Session`
+        :type locale: :class:`str`
         """
-        self._xitroo = xitroo
-        self._mailId: str = mailId
+        self._locale: str = locale.strip()
+        self._session: requests.Session = session
+        self._mailId: str = mailId.strip()
 
     def getBodyHtml(self) -> str:
         """
@@ -117,11 +124,11 @@ class Mail:
         if os.path.exists(fpath):
             return False
         params: dict[str, str] = {
-            "locale": self._xitroo._locale,
+            "locale": self._locale,
             "filename": filetodownload,
             "id": self._mailId,
         }
-        r: requests.Response = self._xitroo._session.get(self._xitroo._ATTACHMENT, params=params)
+        r: requests.Response = self._session.get(ATTACHMENT, params=params)
         if r.status_code != 200:
             return False
         data = r.json()["data"]
@@ -141,15 +148,49 @@ class Mail:
         :return: :class:`str`
         """
         params: dict[str, str] = {
-            "locale": self._xitroo._locale,
+            "locale": self._locale,
             "filename": filetoread,
             "id": self._mailId,
         }
-        r: requests.Response = self._xitroo._session.get(self._xitroo._ATTACHMENT, params=params)
+        r: requests.Response = self._session.get(ATTACHMENT, params=params)
         if r.status_code != 200:
             return "Error reading attachment"
         return base64.b64decode(r.json()["data"]).decode(encoding)
 
+    def delete(self) -> bool:
+        """
+        Delete ``mailId`` from inbox.
+        :rtype: :class:`bool`
+        :return: :class:`bool` if successful or not.
+        """
+        params = {
+            "locale": self._locale,
+            "id": self._mailId
+        }
+        r: requests.Response = self._session.get(DELETE, params=params)
+        if r.status_code != 200:
+            return False
+        return True
+
+    def reply(self, text: str) -> bool:
+        """
+        Reply to ``mailId``.
+        :param text: Text to reply.
+        :type text: :class:`str`
+        :rtype: :class:`bool`
+        :return: :class:`bool` if successful or not.
+        """
+        raise NotImplementedError()
+
+    def getCode(self, codelength: int = 6) -> str:
+        """
+        Static Method to get code from ``mailId`` with ``codelength`` to identify the code.
+        :param codelength: optional length of code to parse. Default is 6.
+        :type codelength: :class:`int`
+        :rtype: :class:`str`
+        :return: Verification Code.
+        """
+        return re.search('\\d{' + str(codelength) + '}', self.getBodyText()).group(0)
 
     def getRawMail(self) -> dict:
         """
@@ -158,7 +199,7 @@ class Mail:
         :return: :class:`dict` of ``mailId``
         """
         params: dict[str, str] = {
-            "locale": self._xitroo._locale,
+            "locale": self._locale,
             "id": self._mailId
         }
-        return self._xitroo._session.get(self._xitroo._MAIL, params=params).json()
+        return self._session.get(MAIL, params=params).json()

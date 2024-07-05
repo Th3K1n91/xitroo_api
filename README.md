@@ -12,7 +12,7 @@ This is an unofficial API for interacting with the Xitroo email service. The API
 
 ## Installation
 
-To install this package, type the following command into your terminal:
+To install this package, clone the repository and install the required dependencies:
 
 ```bash
 pip install unofficial-xitroo-api
@@ -58,7 +58,7 @@ Provides methods to search the inbox by different criteria such as date, sender,
 Handles captcha-related operations including retrieving and verifying captchas.
 
 ## Documentation
-For detailed documentation, please refer to the [HTML documentation](https://htmlpreview.github.io/?https://github.com/Th3K1n91/xitroo_api/blob/main/docs/index.html) in the docs folder.
+For detailed documentation, please refer to the [HTML documentation](http://htmlpreview.github.io/?https://github.com/Th3K1n91/xitroo_api/tree/main/docs/xitroo.html) in the docs folder.
 
 ## Contributing
 We welcome contributions! Please fork the repository and submit pull requests.

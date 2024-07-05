@@ -1,12 +1,17 @@
+import requests
+from .endpoints import *
 from .exceptions import CaptchaException
 class Captcha:
-    def __init__(self, xitroo):
+    def __init__(self, session: requests.Session = requests.Session(), locale: str = "com"):
         """
         Captcha constructor.
-        :param xitroo: Xitroo object.
-        :type xitroo: :class:`xitroo.Xitroo.Xitroo`
+        :param session: optional :class:`requests.Session`
+        :param locale: optional locale. Default is "com"
+        :type locale: class:`str`
+        :type session: :class:`requests.Session`
         """
-        self._xitroo = xitroo
+        self._session: requests.Session = session
+        self._locale: str = locale
         self.id: str = ""
 
     def getCaptcha(self) -> dict:
@@ -14,32 +19,30 @@ class Captcha:
         Get captcha data as dict.
         :return: :class:`dict`
         """
-        params: dict[str, str] = {"locale": self._xitroo._locale}
-        r: dict = self._xitroo._session.get(self._xitroo._GETCAPTCHA, headers=self._xitroo._header,
-                                            params=params).json()
+        params: dict[str, str] = {"locale": self._locale}
+        r: dict = self._session.get(GETCAPTCHA, params=params).json()
         self.id: str = r["authID"]
         return r
 
-    def verifyCaptcha(self, solution: str, id: str = "") -> bool:
+    def verifyCaptcha(self, solution: str, captchaid: str = "") -> bool:
         """
         Verify the captcha by checking if the solution is correct.
         :param solution: Captcha solution.
-        :param id: optional Captcha id if creating a new Captcha object.
+        :param captchaid: optional Captcha id if creating a new Captcha object.
         :type solution: :class:`str`
-        :type id: :class:`str`
+        :type captchaid: :class:`str`
         :rtype: :class:`bool`
         :return: :class:`bool` indicating if the solution is correct.
         """
-        if self.id is None and id:
-            self.id: str = id
-        if not self.id and not id:
+        if self.id is None and captchaid:
+            self.id: str = captchaid
+        if not self.id and not captchaid:
             raise CaptchaException("Create Captcha Object or pass in a captcha id")
-        params: dict[str, str] = {"locale": self._xitroo._locale,
+        params: dict[str, str] = {"locale": self._locale,
                                   "authID": self.id,
                                   "captchaSolution": solution
                                   }
-        r: dict = self._xitroo._session.get(self._xitroo._SENDCAPTCHA, headers=self._xitroo._header,
-                                            params=params).json()
+        r: dict = self._session.get(SENDCAPTCHA, params=params).json()
         if not r["authSuccess"]:
             return False
         return True

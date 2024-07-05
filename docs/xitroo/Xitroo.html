@@ -16,17 +16,13 @@
     <nav class="pdoc">
         <label id="navtoggle" for="togglestate" class="pdoc-button"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke-linecap='round' stroke="currentColor" stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg></label>
         <input id="togglestate" type="checkbox" aria-hidden="true" tabindex="-1">
-        <div>            <a class="pdoc-button module-list-button" href="../index.html">
+        <div>            <a class="pdoc-button module-list-button" href="../xitroo.html">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
   <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
-</svg>                &nbsp;
-                Module Index
-            </a>
+</svg>                &nbsp;xitroo</a>
 
 
-            <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
-                   pattern=".+" required>
 
 
 
@@ -115,7 +111,7 @@
     <main class="pdoc">
             <section class="module-info">
                     <h1 class="modulename">
-xitroo<wbr>.Xitroo    </h1>
+<a href="./../xitroo.html">xitroo</a><wbr>.Xitroo    </h1>
 
                 
                         <input id="mod-Xitroo-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -414,10 +410,11 @@ xitroo<wbr>.Xitroo    </h1>
 </span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">checkMail</span><span class="p">):</span>
 </span><span id="L-292"><a href="#L-292"><span class="linenos">292</span></a>            <span class="n">latest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLatestMail</span><span class="p">()</span>
-</span><span id="L-293"><a href="#L-293"><span class="linenos">293</span></a>            <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">latest</span><span class="o">.</span><span class="n">getRawMail</span><span class="p">()[</span><span class="s2">&quot;arrivalTimestamp&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">maxTime</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()):</span>
-</span><span id="L-294"><a href="#L-294"><span class="linenos">294</span></a>                <span class="k">return</span> <span class="n">latest</span>
-</span><span id="L-295"><a href="#L-295"><span class="linenos">295</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Waiting for latest mail...&quot;</span><span class="p">)</span>
-</span><span id="L-296"><a href="#L-296"><span class="linenos">296</span></a>            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleepTime</span><span class="p">)</span>
+</span><span id="L-293"><a href="#L-293"><span class="linenos">293</span></a>            <span class="k">if</span> <span class="n">latest</span><span class="p">:</span>
+</span><span id="L-294"><a href="#L-294"><span class="linenos">294</span></a>                <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">latest</span><span class="o">.</span><span class="n">getRawMail</span><span class="p">()[</span><span class="s2">&quot;arrivalTimestamp&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">maxTime</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()):</span>
+</span><span id="L-295"><a href="#L-295"><span class="linenos">295</span></a>                    <span class="k">return</span> <span class="n">latest</span>
+</span><span id="L-296"><a href="#L-296"><span class="linenos">296</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Waiting for latest mail...&quot;</span><span class="p">)</span>
+</span><span id="L-297"><a href="#L-297"><span class="linenos">297</span></a>            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleepTime</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -714,10 +711,11 @@ xitroo<wbr>.Xitroo    </h1>
 </span><span id="Xitroo-291"><a href="#Xitroo-291"><span class="linenos">291</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="Xitroo-292"><a href="#Xitroo-292"><span class="linenos">292</span></a>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">checkMail</span><span class="p">):</span>
 </span><span id="Xitroo-293"><a href="#Xitroo-293"><span class="linenos">293</span></a>            <span class="n">latest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLatestMail</span><span class="p">()</span>
-</span><span id="Xitroo-294"><a href="#Xitroo-294"><span class="linenos">294</span></a>            <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">latest</span><span class="o">.</span><span class="n">getRawMail</span><span class="p">()[</span><span class="s2">&quot;arrivalTimestamp&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">maxTime</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()):</span>
-</span><span id="Xitroo-295"><a href="#Xitroo-295"><span class="linenos">295</span></a>                <span class="k">return</span> <span class="n">latest</span>
-</span><span id="Xitroo-296"><a href="#Xitroo-296"><span class="linenos">296</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Waiting for latest mail...&quot;</span><span class="p">)</span>
-</span><span id="Xitroo-297"><a href="#Xitroo-297"><span class="linenos">297</span></a>            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleepTime</span><span class="p">)</span>
+</span><span id="Xitroo-294"><a href="#Xitroo-294"><span class="linenos">294</span></a>            <span class="k">if</span> <span class="n">latest</span><span class="p">:</span>
+</span><span id="Xitroo-295"><a href="#Xitroo-295"><span class="linenos">295</span></a>                <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">latest</span><span class="o">.</span><span class="n">getRawMail</span><span class="p">()[</span><span class="s2">&quot;arrivalTimestamp&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">maxTime</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()):</span>
+</span><span id="Xitroo-296"><a href="#Xitroo-296"><span class="linenos">296</span></a>                    <span class="k">return</span> <span class="n">latest</span>
+</span><span id="Xitroo-297"><a href="#Xitroo-297"><span class="linenos">297</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Waiting for latest mail...&quot;</span><span class="p">)</span>
+</span><span id="Xitroo-298"><a href="#Xitroo-298"><span class="linenos">298</span></a>            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleepTime</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -996,7 +994,7 @@ xitroo<wbr>.Xitroo    </h1>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">copy</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="o">&lt;</span><span class="n">function</span> <span class="n">Xitroo</span><span class="o">.</span><span class="fm">__init__</span> <span class="n">at</span> <span class="mh">0x7f49451796c0</span><span class="o">&gt;</span>:</span></span>
+        <span class="name">copy</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="o">&lt;</span><span class="n">function</span> <span class="n">Xitroo</span><span class="o">.</span><span class="fm">__init__</span> <span class="n">at</span> <span class="mh">0x7efdef109940</span><span class="o">&gt;</span>:</span></span>
 
                 <label class="view-source-button" for="Xitroo.copy-view-source"><span>View Source</span></label>
 
@@ -1028,7 +1026,7 @@ xitroo<wbr>.Xitroo    </h1>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">copyTo</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">XitrooObject</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">function</span> <span class="n">Xitroo</span><span class="o">.</span><span class="fm">__init__</span><span class="o">&gt;</span></span><span class="return-annotation">) -> <span class="o">&lt;</span><span class="n">function</span> <span class="n">Xitroo</span><span class="o">.</span><span class="fm">__init__</span> <span class="n">at</span> <span class="mh">0x7f49451796c0</span><span class="o">&gt;</span>:</span></span>
+        <span class="name">copyTo</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">XitrooObject</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">function</span> <span class="n">Xitroo</span><span class="o">.</span><span class="fm">__init__</span><span class="o">&gt;</span></span><span class="return-annotation">) -> <span class="o">&lt;</span><span class="n">function</span> <span class="n">Xitroo</span><span class="o">.</span><span class="fm">__init__</span> <span class="n">at</span> <span class="mh">0x7efdef109940</span><span class="o">&gt;</span>:</span></span>
 
                 <label class="view-source-button" for="Xitroo.copyTo-view-source"><span>View Source</span></label>
 
@@ -1510,10 +1508,11 @@ xitroo<wbr>.Xitroo    </h1>
 </span><span id="Xitroo.waitForLatestMail-291"><a href="#Xitroo.waitForLatestMail-291"><span class="linenos">291</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="Xitroo.waitForLatestMail-292"><a href="#Xitroo.waitForLatestMail-292"><span class="linenos">292</span></a>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">checkMail</span><span class="p">):</span>
 </span><span id="Xitroo.waitForLatestMail-293"><a href="#Xitroo.waitForLatestMail-293"><span class="linenos">293</span></a>            <span class="n">latest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLatestMail</span><span class="p">()</span>
-</span><span id="Xitroo.waitForLatestMail-294"><a href="#Xitroo.waitForLatestMail-294"><span class="linenos">294</span></a>            <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">latest</span><span class="o">.</span><span class="n">getRawMail</span><span class="p">()[</span><span class="s2">&quot;arrivalTimestamp&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">maxTime</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()):</span>
-</span><span id="Xitroo.waitForLatestMail-295"><a href="#Xitroo.waitForLatestMail-295"><span class="linenos">295</span></a>                <span class="k">return</span> <span class="n">latest</span>
-</span><span id="Xitroo.waitForLatestMail-296"><a href="#Xitroo.waitForLatestMail-296"><span class="linenos">296</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Waiting for latest mail...&quot;</span><span class="p">)</span>
-</span><span id="Xitroo.waitForLatestMail-297"><a href="#Xitroo.waitForLatestMail-297"><span class="linenos">297</span></a>            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleepTime</span><span class="p">)</span>
+</span><span id="Xitroo.waitForLatestMail-294"><a href="#Xitroo.waitForLatestMail-294"><span class="linenos">294</span></a>            <span class="k">if</span> <span class="n">latest</span><span class="p">:</span>
+</span><span id="Xitroo.waitForLatestMail-295"><a href="#Xitroo.waitForLatestMail-295"><span class="linenos">295</span></a>                <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">latest</span><span class="o">.</span><span class="n">getRawMail</span><span class="p">()[</span><span class="s2">&quot;arrivalTimestamp&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">maxTime</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()):</span>
+</span><span id="Xitroo.waitForLatestMail-296"><a href="#Xitroo.waitForLatestMail-296"><span class="linenos">296</span></a>                    <span class="k">return</span> <span class="n">latest</span>
+</span><span id="Xitroo.waitForLatestMail-297"><a href="#Xitroo.waitForLatestMail-297"><span class="linenos">297</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Waiting for latest mail...&quot;</span><span class="p">)</span>
+</span><span id="Xitroo.waitForLatestMail-298"><a href="#Xitroo.waitForLatestMail-298"><span class="linenos">298</span></a>            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleepTime</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -1538,186 +1537,5 @@ xitroo<wbr>.Xitroo    </h1>
                             </div>
                 </section>
     </main>
-<script>
-    function escapeHTML(html) {
-        return document.createElement('div').appendChild(document.createTextNode(html)).parentNode.innerHTML;
-    }
-
-    const originalContent = document.querySelector("main.pdoc");
-    let currentContent = originalContent;
-
-    function setContent(innerHTML) {
-        let elem;
-        if (innerHTML) {
-            elem = document.createElement("main");
-            elem.classList.add("pdoc");
-            elem.innerHTML = innerHTML;
-        } else {
-            elem = originalContent;
-        }
-        if (currentContent !== elem) {
-            currentContent.replaceWith(elem);
-            currentContent = elem;
-        }
-    }
-
-    function getSearchTerm() {
-        return (new URL(window.location)).searchParams.get("search");
-    }
-
-    const searchBox = document.querySelector(".pdoc input[type=search]");
-    searchBox.addEventListener("input", function () {
-        let url = new URL(window.location);
-        if (searchBox.value.trim()) {
-            url.hash = "";
-            url.searchParams.set("search", searchBox.value);
-        } else {
-            url.searchParams.delete("search");
-        }
-        history.replaceState("", "", url.toString());
-        onInput();
-    });
-    window.addEventListener("popstate", onInput);
-
-
-    let search, searchErr;
-
-    async function initialize() {
-        try {
-            search = await new Promise((resolve, reject) => {
-                const script = document.createElement("script");
-                script.type = "text/javascript";
-                script.async = true;
-                script.onload = () => resolve(window.pdocSearch);
-                script.onerror = (e) => reject(e);
-                script.src = "../search.js";
-                document.getElementsByTagName("head")[0].appendChild(script);
-            });
-        } catch (e) {
-            console.error("Cannot fetch pdoc search index");
-            searchErr = "Cannot fetch search index.";
-        }
-        onInput();
-
-        document.querySelector("nav.pdoc").addEventListener("click", e => {
-            if (e.target.hash) {
-                searchBox.value = "";
-                searchBox.dispatchEvent(new Event("input"));
-            }
-        });
-    }
-
-    function onInput() {
-        setContent((() => {
-            const term = getSearchTerm();
-            if (!term) {
-                return null
-            }
-            if (searchErr) {
-                return `<h3>Error: ${searchErr}</h3>`
-            }
-            if (!search) {
-                return "<h3>Searching...</h3>"
-            }
-
-            window.scrollTo({top: 0, left: 0, behavior: 'auto'});
-
-            const results = search(term);
-
-            let html;
-            if (results.length === 0) {
-                html = `No search results for '${escapeHTML(term)}'.`
-            } else {
-                html = `<h4>${results.length} search result${results.length > 1 ? "s" : ""} for '${escapeHTML(term)}'.</h4>`;
-            }
-            for (let result of results.slice(0, 10)) {
-                let doc = result.doc;
-                let url = `../${doc.modulename.replaceAll(".", "/")}.html`;
-                if (doc.qualname) {
-                    url += `#${doc.qualname}`;
-                }
-
-                let heading;
-                switch (result.doc.kind) {
-                    case "function":
-                        if (doc.fullname.endsWith(".__init__")) {
-                            heading = `<span class="name">${doc.fullname.replace(/\.__init__$/, "")}</span>${doc.signature}`;
-                        } else {
-                            heading = `<span class="def">${doc.funcdef}</span> <span class="name">${doc.fullname}</span>${doc.signature}`;
-                        }
-                        break;
-                    case "class":
-                        heading = `<span class="def">class</span> <span class="name">${doc.fullname}</span>`;
-                        if (doc.bases)
-                            heading += `<wbr>(<span class="base">${doc.bases}</span>)`;
-                        heading += `:`;
-                        break;
-                    case "variable":
-                        heading = `<span class="name">${doc.fullname}</span>`;
-                        if (doc.annotation)
-                            heading += `<span class="annotation">${doc.annotation}</span>`;
-                        if (doc.default_value)
-                            heading += `<span class="default_value"> = ${doc.default_value}</span>`;
-                        break;
-                    default:
-                        heading = `<span class="name">${doc.fullname}</span>`;
-                        break;
-                }
-                html += `
-                        <section class="search-result">
-                        <a href="${url}" class="attr ${doc.kind}">${heading}</a>
-                        <div class="docstring">${doc.doc}</div>
-                        </section>
-                    `;
-
-            }
-            return html;
-        })());
-    }
-
-    if (getSearchTerm()) {
-        initialize();
-        searchBox.value = getSearchTerm();
-        onInput();
-    } else {
-        searchBox.addEventListener("focus", initialize, {once: true});
-    }
-
-    searchBox.addEventListener("keydown", e => {
-        if (["ArrowDown", "ArrowUp", "Enter"].includes(e.key)) {
-            let focused = currentContent.querySelector(".search-result.focused");
-            if (!focused) {
-                currentContent.querySelector(".search-result").classList.add("focused");
-            } else if (
-                e.key === "ArrowDown"
-                && focused.nextElementSibling
-                && focused.nextElementSibling.classList.contains("search-result")
-            ) {
-                focused.classList.remove("focused");
-                focused.nextElementSibling.classList.add("focused");
-                focused.nextElementSibling.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest",
-                    inline: "nearest"
-                });
-            } else if (
-                e.key === "ArrowUp"
-                && focused.previousElementSibling
-                && focused.previousElementSibling.classList.contains("search-result")
-            ) {
-                focused.classList.remove("focused");
-                focused.previousElementSibling.classList.add("focused");
-                focused.previousElementSibling.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest",
-                    inline: "nearest"
-                });
-            } else if (
-                e.key === "Enter"
-            ) {
-                focused.querySelector("a").click();
-            }
-        }
-    });
-</script></body>
+</body>
 </html>

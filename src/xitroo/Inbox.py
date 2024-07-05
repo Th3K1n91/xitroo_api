@@ -1,19 +1,32 @@
 import time
+import requests
+from .exceptions import EmailNotFound, GETRequestException
+from .endpoints import *
 from .Mail import Mail as Mailclass
 class Inbox:
-    def __init__(self, xitroo, inbox: dict = None):
+    def __init__(self, mailAddress: str = None,
+                 session: requests.Session = requests.Session(),
+                 inbox: dict = None,
+                 locale: str = "com"):
         """
         Inbox constructor.
-        :param xitroo: Xitroo object.
+        :param mailAddress: Mail address required if inbox is None
+        :param session: optional :class:`requests.Session`
         :param inbox: optional dict of Inbox.
+        :param locale: optional locale to use for inbox.
         :type inbox: :class:`dict`
-        :type xitroo: :class:`xitroo.Xitroo.Xitroo`
+        :type locale: :class:`str`
+        :type session: :class:`requests.Session`
+        :type mailAddress: :class:`str`
         """
-        self._xitroo = xitroo
-        if inbox == "":
-            self._inbox: dict = inbox
-        else:
-            self._inbox: dict = self.getRawInbox()
+        self._session: requests.Session = session
+        self._locale: str = locale.strip()
+
+        if mailAddress is None and inbox is None:
+            raise ValueError("Either mailAddress or inbox must be specified.")
+
+        self._mailAddress: str = mailAddress.strip() if mailAddress else None
+        self._inbox: dict = inbox if inbox is not None else self.getRawInbox()
 
     def getRawInbox(self, mailsPerPage=25) -> dict:
         """
@@ -24,17 +37,20 @@ class Inbox:
         :return: :class:`dict` of inbox
         """
         params: dict[str, str] = {
-            "locale": self._xitroo._locale,
-            "mailAddress": self._xitroo._mailAddress,
+            "locale": self._locale,
+            "mailAddress": self._mailAddress,
             "mailsPerPage": mailsPerPage,
             "minTimestamp": "0",
             "maxTimestamp": time.time()
         }
-        reqeust: dict = self._xitroo._session.get(self._xitroo._MAILS, params=params).json()
+        reqeust: requests.Response = self._session.get(MAILS, params=params)
+        if reqeust.status_code != 200:
+            raise GETRequestException("raw Inbox", reqeust.text, reqeust.status_code)
+        content: dict = reqeust.json()
         # Translate for later usage #1
-        if "type" in reqeust:
+        if "type" in content:
             return {'totalMails': 0, 'mails': []}
-        return reqeust
+        return content
 
     def getTotalMails(self) -> int:
         """
@@ -60,8 +76,13 @@ class Inbox:
         :rtype: :class:`dict`
         :return: :class:`dict`
         """
-        if not index < 0 or not index >= self.getTotalMails():
+        total = self.getTotalMails()
+        if total*-1 <= index < total and total > 0:
             return self._inbox['mails'][index]
+        else:
+            if total == 0:
+                raise EmailNotFound(f"Inbox from {self._mailAddress} does not contain any mail.")
+            raise EmailNotFound("Index out of range for Inbox from {self._mailAddress}")
 
     def getMail(self, index: int) -> Mailclass:
         """
@@ -71,7 +92,7 @@ class Inbox:
         :rtype: :class:`Mailclass`
         :return: :class:`Mailclass`
         """
-        return self._xitroo.Mail(self.getRawMail(index)["_id"])
+        return Mailclass(self.getRawMail(index)["_id"], self._session)
 
     def getMailFirst(self) -> Mailclass:
         """
@@ -79,7 +100,7 @@ class Inbox:
         :rtype: :class:`Mailclass`
         :return: :class:`Mailclass`
         """
-        return self._xitroo.Mail(self.getRawMail(0)["_id"])
+        return Mailclass(self.getRawMail(0)["_id"], self._session)
 
     def getMailLast(self) -> Mailclass:
         """
@@ -87,8 +108,4 @@ class Inbox:
         :rtype: :class:`Mailclass`
         :return: :class:`Mailclass`
         """
-        return self._xitroo.Mail(self.getRawMail(-1)["_id"])
-
-
-    # def searchRegex(self):
-    #     return self._xitroo.searchInboxRegex()
+        return Mailclass(self.getRawMail(-1)["_id"], self._session)
