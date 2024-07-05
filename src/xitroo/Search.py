@@ -27,10 +27,10 @@ class SearchMail:
         """
         # datetime.strptime(mailDate, "%Y-%m-%d").date()
         for i in self._mails['mails']:
-            id: str = i['_id']
+            mailid: str = i['_id']
             if datetime.fromtimestamp(i['arrivalTimestamp']).strftime('%Y-%m-%d') == mailDate:
                 for j in self._result['mails']:
-                    if id in j['_id']:
+                    if mailid in j['_id']:
                         return Inboxclass(session=self._session, inbox=self._result)
                 self._result['totalMails'] += 1
                 self._result['mails'].append(i)
@@ -44,11 +44,11 @@ class SearchMail:
         :return: :class:`Inboxclass`
         """
         for i in self._mails['mails']:
-            id: str = i['_id']
-            if sender in Mailclass(id, self._session).getFromMail():
+            mailid: str = i['_id']
+            if sender in Mailclass(mailid, self._session).getFromMail():
             # if sender in self._xitroo.Mail(id).getFromMail():
                 for j in self._result['mails']:
-                    if id in j['_id']:
+                    if mailid in j['_id']:
                         return Inboxclass(session=self._session, inbox=self._result)
                 self._result['totalMails'] += 1
                 self._result['mails'].append(i)
@@ -62,11 +62,10 @@ class SearchMail:
         :return: :class:`Inboxclass`
         """
         for i in self._mails['mails']:
-            id: str = i['_id']
-            if title in Mailclass(id, self._session).getSubject():
-            #if title in self._xitroo.Mail(id).getSubject():
+            mailid: str = i['_id']
+            if title in Mailclass(mailid, self._session).getSubject():
                 for j in self._result['mails']:
-                    if id in j['_id']:
+                    if mailid in j['_id']:
                         return Inboxclass(session=self._session, inbox=self._result)
                 self._result['totalMails'] += 1
                 self._result['mails'].append(i)
@@ -80,11 +79,10 @@ class SearchMail:
         :return: :class:`Inboxclass`
         """
         for i in self._mails['mails']:
-            id: str = i['_id']
-            if text in Mailclass(id, self._session).getBodyText():
-            #if text in self._xitroo.Mail(id).getBodyText():
+            mailid: str = i['_id']
+            if text in Mailclass(mailid, self._session).getBodyText():
                 for j in self._result['mails']:
-                    if id in j['_id']:
+                    if mailid in j['_id']:
                         return Inboxclass(session=self._session, inbox=self._result)
                 self._result['totalMails'] += 1
                 self._result['mails'].append(i)

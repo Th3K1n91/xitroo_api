@@ -24,19 +24,19 @@ class Captcha:
         self.id: str = r["authID"]
         return r
 
-    def verifyCaptcha(self, solution: str, id: str = "") -> bool:
+    def verifyCaptcha(self, solution: str, captchaid: str = "") -> bool:
         """
         Verify the captcha by checking if the solution is correct.
         :param solution: Captcha solution.
-        :param id: optional Captcha id if creating a new Captcha object.
+        :param captchaid: optional Captcha id if creating a new Captcha object.
         :type solution: :class:`str`
-        :type id: :class:`str`
+        :type captchaid: :class:`str`
         :rtype: :class:`bool`
         :return: :class:`bool` indicating if the solution is correct.
         """
-        if self.id is None and id:
-            self.id: str = id
-        if not self.id and not id:
+        if self.id is None and captchaid:
+            self.id: str = captchaid
+        if not self.id and not captchaid:
             raise CaptchaException("Create Captcha Object or pass in a captcha id")
         params: dict[str, str] = {"locale": self._locale,
                                   "authID": self.id,

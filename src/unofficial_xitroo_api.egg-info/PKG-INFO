@@ -1,3 +1,18 @@
+Metadata-Version: 2.1
+Name: unofficial_xitroo_api
+Version: 0.9
+Summary: Xitroo API
+Home-page: https://github.com/Th3K1n91/xitroo_api
+Author: InSuckaBlyat88
+Author-email: x.xxha001@gmail.com
+Project-URL: Bug Tracker, https://github.com/Th3K1n91/xitroo_api/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 # Unofficial Xitroo API
 
 This is an unofficial API for interacting with the Xitroo email service. The API provides a set of Python classes and methods to manage email addresses, retrieve and send emails, handle inboxes, solve captchas, and more.
@@ -58,7 +73,7 @@ Provides methods to search the inbox by different criteria such as date, sender,
 Handles captcha-related operations including retrieving and verifying captchas.
 
 ## Documentation
-For detailed documentation, please refer to the [HTML documentation](http://htmlpreview.github.io/?https://github.com/Th3K1n91/xitroo_api/tree/main/docs/xitroo.html) in the docs folder.
+For detailed documentation, please refer to the [HTML documentation](http://htmlpreview.github.io/?https://github.com/Th3K1n91/xitroo_api/tree/main/docs/index.html) in the docs folder.
 
 ## Contributing
 We welcome contributions! Please fork the repository and submit pull requests.

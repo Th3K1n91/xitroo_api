@@ -1,0 +1,16 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/unofficial_xitroo_api.egg-info/PKG-INFO
+src/unofficial_xitroo_api.egg-info/SOURCES.txt
+src/unofficial_xitroo_api.egg-info/dependency_links.txt
+src/unofficial_xitroo_api.egg-info/top_level.txt
+src/xitroo/Captcha.py
+src/xitroo/Inbox.py
+src/xitroo/Mail.py
+src/xitroo/Search.py
+src/xitroo/Xitroo.py
+src/xitroo/__init__.py
+src/xitroo/endpoints.py
+src/xitroo/exceptions.py
