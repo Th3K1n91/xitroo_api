@@ -58,7 +58,7 @@ Provides methods to search the inbox by different criteria such as date, sender,
 Handles captcha-related operations including retrieving and verifying captchas.
 
 ## Documentation
-For detailed documentation, please refer to the [HTML documentation](http://htmlpreview.github.io/?https://github.com/Th3K1n91/xitroo_api/tree/main/docs/xitroo.html) in the docs folder.
+For detailed documentation, please refer to the [HTML documentation](https://htmlpreview.github.io/?https://github.com/Th3K1n91/xitroo_api/blob/main/docs/xitroo.html) in the docs folder.
 
 ## Contributing
 We welcome contributions! Please fork the repository and submit pull requests.
